@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# This script purpose is to :
+# prepare composer install and magento:install script run
+# create database
+
+adjust_rights(){
+  mage_folder=$1
+  paths=('vendor' 'app' 'app/etc' 'pub/static' 'pub/media/b2c_test'  'pub' 'var' 'generated' 'setup' 'setup/config')
+  for path in "${paths[@]}";	do
+    echo "Adjust rights of $path in $mage_folder"
+    mkdir -p $mage_folder/$path && chown magento:magento -R $mage_folder/$path && chmod g+w -R $mage_folder/$path
+  done
+}
+
+create_db(){
+  db=$1
+  echo "Start create DB $db"
+  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "CREATE DATABASE IF NOT EXISTS $db;"
+  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "GRANT ALL PRIVILEGES ON $db.* TO '$MYSQL_USER'@'%';"
+  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "UPDATE mysql.user SET Super_priv='Y' WHERE User='$MYSQL_USER';"
+  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "FLUSH PRIVILEGES;"
+}
+
+adjust_rights $MAGENTO_SRC
+create_db $MYSQL_DATABASE
+
+# Fix .ssh rights
+chmod 600 /home/magento/.ssh/*

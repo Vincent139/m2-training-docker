@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+cd $MAGENTO_SRC
+
+# Composer install
+composer install
+
+# uninstall in case of reinstall
+bin/magento setup:uninstall -n
+
+# play install
+bin/magento setup:install \
+  --base-url=$MAGENTO_URL \
+  --backend-frontname=$MAGENTO_BO_NAME \
+  --language=$MAGENTO_LANGUAGE \
+  --timezone=$MAGENTO_TIMEZONE \
+  --currency=$MAGENTO_DEFAULT_CURRENCY \
+  --db-host=$MYSQL_HOST \
+  --db-name=$_MYSQL_DATABASE \
+  --db-user=$MYSQL_USER \
+  --db-password=$MYSQL_PASSWORD \
+  --use-secure=$MAGENTO_USE_SECURE \
+  --base-url-secure=$MAGENTO_URL_SECURE \
+  --use-secure-admin=$MAGENTO_USE_SECURE_ADMIN \
+  --admin-firstname=$MAGENTO_ADMIN_FIRSTNAME \
+  --admin-lastname=$MAGENTO_ADMIN_LASTNAME \
+  --admin-email=$MAGENTO_ADMIN_EMAIL \
+  --admin-user=$MAGENTO_ADMIN_USERNAME \
+  --admin-password=$MAGENTO_ADMIN_PASSWORD \
+  --session-save='redis' \
+  --session-save-redis-host=$REDIS_SESSION_HOST \
+  --session-save-redis-port=$REDIS_SESSION_PORT \
+  --session-save-redis-timeout='2.5' \
+  --session-save-redis-db=$REDIS_SESSION_DB  \
+  --session-save-redis-compression-threshold='2048' \
+  --session-save-redis-compression-lib='gzip' \
+  --session-save-redis-log-level='1' \
+  --session-save-redis-max-concurrency='6' \
+  --session-save-redis-break-after-frontend='5' \
+  --session-save-redis-break-after-adminhtml='30' \
+  --session-save-redis-first-lifetime='600' \
+  --session-save-redis-bot-first-lifetime='60' \
+  --session-save-redis-bot-lifetime='7200' \
+  --session-save-redis-disable-locking='0' \
+  --session-save-redis-min-lifetime='60' \
+  --session-save-redis-max-lifetime='2592000' \
+  --cache-backend='redis' \
+  --cache-backend-redis-server=$REDIS_CACHE_HOST \
+  --cache-backend-redis-db=$REDIS_CACHE_DB \
+  --cache-backend-redis-port=$REDIS_CACHE_PORT  \
+  --page-cache='redis' \
+  --page-cache-redis-server=$REDIS_CACHE_HOST \
+  --page-cache-redis-db=$REDIS_PAGE_DB \
+  --page-cache-redis-port=$REDIS_CACHE_PORT \
+  --page-cache-redis-compress-data='0' \
+  --cleanup-database \
+  --es-hosts="elasticsearch:9200"
+
+# enable varnish
+bin/magento config:set --scope=default --scope-code=0 system/full_page_cache/caching_application 2
+bin/magento setup:config:set --http-cache-hosts="varnish.local"
+
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/servers elasticsearch.local:9200
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_https_mode 0
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_user ''
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_pwd ''
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_http_auth false
+
+bin/magento config:set --lock-env --scope=default --scope-code=0 web/secure/base_url https://admin.formation.m2.local:453/
+bin/magento config:set --lock-env --scope=default --scope-code=0 web/unsecure/base_url https://admin.formation.m2.local:453/
