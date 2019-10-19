@@ -34,8 +34,8 @@ services:
     build:
       context: ./web
       args:
-        magento_uid: ${MAGE_UID}
-        magento_gid: ${MAGE_GID}
+        magento_uid: ${CURRENT_UID}
+        magento_gid: ${CURRENT_GID}
     container_name: m2-formation-apache
     ports:
         - 8090:8080
@@ -46,7 +46,7 @@ services:
       - ${M2_LOCAL_PATH}:${WWW_PATH}
       - ./web/volumes/home/magento:/home/magento
       - ./web/volumes/var/www/html:/var/www/html
-      - /run/user/${MAGE_UID}/keyring/ssh:/ssh-agent
+      - /run/user/${CURRENT_UID}/keyring/ssh:/ssh-agent
     environment:
        SSH_AUTH_SOCK: /ssh-agent
     depends_on:
@@ -63,6 +63,8 @@ services:
   db:
     image: mariadb:10.2
     container_name: m2-formation-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - 3310:3306
     expose:

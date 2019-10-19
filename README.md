@@ -75,9 +75,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
 
 ## Installation
 
-- Step 1 : checkout Magento sources
-
-- Step 2 : Configure application
+- Step 1 : Configure application
   - unsample the .env.sample
     ```
     cd docker
@@ -87,6 +85,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
   - edit the .env file to adjust paths and configuration
     ```
     M2_LOCAL_PATH=/home/john/projects/formation/magento
+    WWW_PATH=/var/www/magento
     MAGE_UID=1000
     MAGE_GID=1000
     MYIP=172.22.0.1
@@ -107,10 +106,18 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
   uid=1000(john) gid=1000(john)
   ```
 
-- Step 3 : Create containers
+- Step 2 : Create containers
   ```
   make build
   make start
+  ```
+
+- Step 3 : get Magento sources
+  First followg instructions here to get authentication keys for downloading sources : https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html
+  ```
+  make bash
+  cd /var/www/magento
+  composer create-project --repository=https://repo.magento.com/ magento/project-community-edition src
   ```
 
 - Step 4 : Install Magento without datas
@@ -152,7 +159,7 @@ unset XDEBUG_CONFIG PHP_IDE_CONFIG
 
 ```
 # Enter Bash on web container
-make bash	  
+make bash
 
 # send a sample email
 php -r 'mail("to@address.com", "Test", "Testing!", "From: my@example.com");'

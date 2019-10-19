@@ -17,8 +17,7 @@ create_db(){
   db=$1
   echo "Start create DB $db"
   mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "CREATE DATABASE IF NOT EXISTS $db;"
-  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "GRANT ALL PRIVILEGES ON $db.* TO '$MYSQL_USER'@'%';"
-  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "UPDATE mysql.user SET Super_priv='Y' WHERE User='$MYSQL_USER';"
+  mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "GRANT ALL PRIVILEGES ON $db.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
   mysql -uroot -p$MYSQL_ROOT_PASSWORD -h $MYSQL_HOST  -e "FLUSH PRIVILEGES;"
 }
 

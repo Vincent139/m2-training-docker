@@ -59,6 +59,7 @@ redis-session-flush: ## [Redis] Flush session instance
 	docker-compose exec redis-session redis-cli flushall
 
 install: ## [Install] Fresh install
+	docker-compose exec db mysql -uroot -hlocalhost -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	docker-compose exec web /usr/local/bin/prepare-magento
 	docker-compose exec --user magento web /usr/local/bin/install-magento
 	make addhost
