@@ -2,9 +2,9 @@
 
 ## Prerequisite
 
-- Stop apache
+- Stop apache, nginx, mysql
 ```
-sudo service apache2 stop # stop your host apache server to avoid port conflict
+Stop your host servers to avoid port conflict
 ```
 
 - Docker and Docker-compose installation
@@ -86,8 +86,8 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
     ```
     M2_LOCAL_PATH=/home/john/projects/formation/magento
     WWW_PATH=/var/www/magento
-    MAGE_UID=1000
-    MAGE_GID=1000
+    CURRENT_UID=1000
+    CURRENT_GID=1000
     MYIP=172.22.0.1
     ```
   - (info: if you got a dirty whitespace in your path keep it whitout adding quotes)
@@ -100,7 +100,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
         inet 10.0.22.57/16 brd 10.0.255.255 scope global dynamic eno1
         ...
   ```
-  - The value to MAGE_UID and MAGE_GID must be the same as you're host system id (usefull to do ssh agent forwarding) (by default it's 1000 but it could be 100x on your system, please adjust it)
+  - The value to CURRENT_UID and CURRENT_GID must be the same as you're host system id (usefull to do ssh agent forwarding) (by default it's 1000 but it could be 100x on your system, please adjust it)
   ```
   ➜  id
   uid=1000(john) gid=1000(john)
@@ -113,7 +113,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
   ```
 
 - Step 3 : get Magento sources
-  First followg instructions here to get authentication keys for downloading sources : https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html
+  Follow instructions here to get authentication keys for downloading sources : https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html
   ```
   make bash
   cd /var/www/magento

@@ -6,8 +6,8 @@ services:
       context: ./nginx
     container_name: m2-formation-nginx
     ports:
-      - 453:443
-      - 90:80
+      - 443:443
+      - 80:80
     depends_on:
       - web
       - varnish
@@ -38,8 +38,8 @@ services:
         magento_gid: ${CURRENT_GID}
     container_name: m2-formation-apache
     ports:
-        - 8090:8080
-        - 8053:8043
+        - 8000:8080
+        - 8043:8043
     env_file:
       - .env
     volumes:
@@ -66,7 +66,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - 3310:3306
+      - 3306:3306
     expose:
       - "3306"
     volumes:
@@ -111,7 +111,7 @@ services:
         - xpack.security.enabled=false
         - xpack.watcher.enabled=false
       ports:
-        - 9210:9200
+        - 9200:9200
       expose:
         - "9200"
         - "9300"
@@ -140,8 +140,8 @@ services:
       image: mailhog/mailhog
       container_name: m2-formation-mailhog
       ports:
-          - 1035:1025
-          - 8035:8025
+          - 1025:1025
+          - 8025:8025
       expose:
         - "8025"
       networks:

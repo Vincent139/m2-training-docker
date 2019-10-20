@@ -59,5 +59,7 @@ bin/magento setup:install \
 bin/magento config:set --scope=default --scope-code=0 system/full_page_cache/caching_application 2
 bin/magento setup:config:set --http-cache-hosts="varnish.local"
 
-bin/magento config:set --lock-env --scope=default --scope-code=0 web/secure/base_url https://admin.formation.m2.local:453/
-bin/magento config:set --lock-env --scope=default --scope-code=0 web/unsecure/base_url https://admin.formation.m2.local:453/
+bin/magento config:set --lock-env --scope=default --scope-code=0 web/secure/base_url https://admin.formation.m2.local/
+bin/magento config:set --lock-env --scope=default --scope-code=0 web/unsecure/base_url https://admin.formation.m2.local/
+bin/magento config:set --lock-env --scope=websites --scope-code=1 web/secure/base_url https://formation.m2.local/
+bin/magento config:set --lock-env --scope=websites --scope-code=1 web/unsecure/base_url https://formation.m2.local/
