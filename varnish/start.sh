@@ -2,8 +2,7 @@
 
 set -xe
 
-varnishd -a :90 \
-  -b 8080
+varnishd -a :80 \
   -f $VCL_CONFIG \
   -s malloc,${CACHE_SIZE} \
   $VARNISHD_PARAMS

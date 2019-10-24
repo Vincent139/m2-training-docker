@@ -84,11 +84,13 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
 
   - edit the .env file to adjust paths and configuration
     ```
-    M2_LOCAL_PATH=/home/john/projects/formation/magento
-    WWW_PATH=/var/www/magento
     CURRENT_UID=1000
     CURRENT_GID=1000
     MYIP=172.22.0.1
+
+    M2_LOCAL_PATH=/directory/of/your/choice/magento2/formation/magento2 (replace with base path of the local git repo)
+    WWW_PATH=/var/www/magento-formation
+    MAGENTO_SRC=/var/www/magento-formation/src
     ```
   - (info: if you got a dirty whitespace in your path keep it whitout adding quotes)
   - MYIP is used by XDEBUG to remote connect, please enter your host IP on the network (ex : 10.0.22.57) or from inside the container (eg if the ip of the container is 172.22.0.8 the host is always the .1 : here 172.22.0.1)
@@ -105,6 +107,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
   ➜  id
   uid=1000(john) gid=1000(john)
   ```
+  - Create host directory /directory/of/your/choice/magento2/formation/magento2 : it will be mapped to /var/www/magento-formation, containing the Magento sources
 
 - Step 2 : Create containers
   ```
@@ -116,7 +119,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
   Follow instructions here to get authentication keys for downloading sources : https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html
   ```
   make bash
-  cd /var/www/magento
+  cd /var/www/magento-formation
   composer create-project --repository=https://repo.magento.com/ magento/project-community-edition src
   ```
 

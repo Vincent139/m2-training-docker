@@ -5,6 +5,7 @@ cd $MAGENTO_SRC
 # Composer install
 composer install
 
+composer require "smile/elasticsuite"
 composer require --dev "vpietri/adm-quickdevbar"
 
 # uninstall in case of reinstall
@@ -29,7 +30,34 @@ bin/magento setup:install \
   --admin-email=$MAGENTO_ADMIN_EMAIL \
   --admin-user=$MAGENTO_ADMIN_USERNAME \
   --admin-password=$MAGENTO_ADMIN_PASSWORD \
-  --cleanup-database
+  --session-save='redis' \
+  --session-save-redis-host=$REDIS_SESSION_HOST \
+  --session-save-redis-port=$REDIS_SESSION_PORT \
+  --session-save-redis-timeout='2.5' \
+  --session-save-redis-db=$REDIS_SESSION_DB  \
+  --session-save-redis-compression-threshold='2048' \
+  --session-save-redis-compression-lib='gzip' \
+  --session-save-redis-log-level='1' \
+  --session-save-redis-max-concurrency='6' \
+  --session-save-redis-break-after-frontend='5' \
+  --session-save-redis-break-after-adminhtml='30' \
+  --session-save-redis-first-lifetime='600' \
+  --session-save-redis-bot-first-lifetime='60' \
+  --session-save-redis-bot-lifetime='7200' \
+  --session-save-redis-disable-locking='0' \
+  --session-save-redis-min-lifetime='60' \
+  --session-save-redis-max-lifetime='2592000' \
+  --cache-backend='redis' \
+  --cache-backend-redis-server=$REDIS_CACHE_HOST \
+  --cache-backend-redis-db=REDIS_CACHE_DB \
+  --cache-backend-redis-port=$REDIS_CACHE_PORT  \
+  --page-cache='redis' \
+  --page-cache-redis-server=$REDIS_CACHE_HOST \
+  --page-cache-redis-db=$REDIS_PAGE_DB \
+  --page-cache-redis-port=$REDIS_CACHE_PORT \
+  --page-cache-redis-compress-data='0' \
+  --cleanup-database \
+  --es-hosts='elasticsearch.local:9200' \
 
 bin/magento deploy:mode:set developer
 bin/magento cache:clean
