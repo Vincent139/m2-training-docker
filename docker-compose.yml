@@ -120,22 +120,6 @@ services:
           aliases:
             - elasticsearch.local
 
-  cerebro:
-      image: yannart/cerebro:latest
-      container_name: m2-formation-cerebro
-      ports:
-          - "9001:9000"
-      expose:
-          - "9001"
-      volumes:
-          - ./cerebro/conf:/opt/cerebro/conf
-      depends_on:
-          - elasticsearch
-      networks:
-        default:
-          aliases:
-            - cerebro.local
-
   mail:
       image: mailhog/mailhog
       container_name: m2-formation-mailhog
