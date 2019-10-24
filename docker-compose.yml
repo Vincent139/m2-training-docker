@@ -38,7 +38,7 @@ services:
         magento_gid: ${CURRENT_GID}
     container_name: m2-formation-apache
     ports:
-        - 8000:8080
+        - 8080:8080
         - 8043:8043
     env_file:
       - .env
@@ -66,7 +66,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - 3306:3306
+      - 3309:3306
     expose:
       - "3306"
     volumes:

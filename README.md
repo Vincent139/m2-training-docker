@@ -91,7 +91,7 @@ Note: It may be necessary to reboot your pc after adding your user to a group.
     MYIP=172.22.0.1
     ```
   - (info: if you got a dirty whitespace in your path keep it whitout adding quotes)
-  - MYIP is used by XDEBUG to remote connect, please enter your host IP on the network (ex : 10.0.22.57) or from inside the container (if the ip of the container is 172.22.0.8 the host is always the .1 : here 172.22.0.1)
+  - MYIP is used by XDEBUG to remote connect, please enter your host IP on the network (ex : 10.0.22.57) or from inside the container (eg if the ip of the container is 172.22.0.8 the host is always the .1 : here 172.22.0.1)
   ```
   ➜  ip addr
       ...

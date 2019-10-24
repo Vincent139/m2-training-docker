@@ -9,7 +9,7 @@ ENV VCL_CONFIG      /etc/varnish/default.vcl
 ENV CACHE_SIZE      256M
 ENV VARNISHD_PARAMS "-T localhost:6082"
 
-EXPOSE 80
+EXPOSE 90
 
 COPY start.sh /start.sh
 RUN chmod u+x /start.sh

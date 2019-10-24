@@ -1,1 +1,1 @@
-* * * * * www-data /usr/local/bin/php /var/www/magento/src/bin/magento cron:run | grep -v "Ran jobs by schedule" >> /var/www/magento/src/var/log/magento.cron.log
+* * * * * www-data /usr/local/bin/php /var/www/magento-formation/src/bin/magento cron:run | grep -v "Ran jobs by schedule" >> /var/www/magento-formation/src/var/log/magento.cron.log

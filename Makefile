@@ -16,7 +16,6 @@ startd: ## [Docker] Start the containers detached
 	docker-compose up -d
 
 build: ## [Docker] Build the containers
-	chmod 600 web/volumes/home/magento/.ssh/config
 	docker-compose build
 
 stop: ## [Docker] Stop the containers
@@ -59,8 +58,10 @@ redis-session-flush: ## [Redis] Flush session instance
 	docker-compose exec redis-session redis-cli flushall
 
 install: ## [Install] Fresh install
-	docker-compose exec db mysql -uroot -hlocalhost -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+	docker-compose exec db mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	docker-compose exec web /usr/local/bin/prepare-magento
 	docker-compose exec --user magento web /usr/local/bin/install-magento
 	make addhost
+	make redis-cache-flush
+	make redis-session-flush
 	echo 'Install finished: access here http://127.0.0.1/'

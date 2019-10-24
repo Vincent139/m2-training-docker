@@ -25,4 +25,4 @@ adjust_rights $MAGENTO_SRC
 create_db $MYSQL_DATABASE
 
 # Fix .ssh rights
-chmod 600 /home/magento/.ssh/*
+chmod -f 600 /home/magento/.ssh/*
