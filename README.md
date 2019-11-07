@@ -1,4 +1,4 @@
-# Formation - M2 - Docker
+# M2 - Training - Docker
 
 ## Prerequisite
 
