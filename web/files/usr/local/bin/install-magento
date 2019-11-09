@@ -66,11 +66,11 @@ bin/magento config:set --scope=default --scope-code=0 system/full_page_cache/cac
 bin/magento setup:config:set --http-cache-hosts="varnish.local"
 
 # configure elasticsuite
-bin/magento config:set --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/servers elasticsearch.local:9200
-bin/magento config:set --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_https_mode 0
-bin/magento config:set --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_user ''
-bin/magento config:set --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_pwd ''
-bin/magento config:set --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_http_auth false
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/servers elasticsearch.local:9200
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_https_mode 0
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_user ''
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/http_auth_pwd ''
+bin/magento config:set --lock-env --scope=default --scope-code=0 smile_elasticsuite_core_base_settings/es_client/enable_http_auth false
 
 # configure base website
 bin/magento config:set --scope=default --scope-code=0 web/secure/base_url https://admin.formation.m2.local/
