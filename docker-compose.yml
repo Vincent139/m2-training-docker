@@ -46,7 +46,6 @@ services:
       - ${M2_LOCAL_PATH}:${WWW_PATH}
       - ./web/volumes/home/magento:/home/magento
       - ./web/volumes/var/www/html:/var/www/html
-      - /run/user/${CURRENT_UID}/keyring/ssh:/ssh-agent
     environment:
        SSH_AUTH_SOCK: /ssh-agent
     depends_on:
