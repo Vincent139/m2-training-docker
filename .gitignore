@@ -1,0 +1,14 @@
+.env
+web/volumes/home/magento/.bash_history
+web/volumes/home/magento/.composer/cache/*
+web/volumes/home/magento/.composer/.htaccess
+web/volumes/home/magento/.mysql_history
+web/volumes/home/magento/.viminfo
+web/volumes/home/magento/.ssh/id_rsa
+web/volumes/home/magento/.php_history
+web/volumes/home/magento/.vim
+db/volumes/*
+
+src
+
+.idea

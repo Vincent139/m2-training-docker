@@ -1,0 +1,133 @@
+version: '2'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: m2-formation-nginx
+    ports:
+      - 443:443
+      - 80:80
+    depends_on:
+      - web
+      - varnish
+    networks:
+      default:
+        aliases:
+          - nginx.local
+
+  varnish:
+    build:
+      context: ./varnish
+    container_name: m2-formation-varnish
+    expose:
+      - "80"
+    volumes:
+        - ./varnish/volumes/etc/varnish:/etc/varnish
+    depends_on:
+      - web
+    networks:
+      default:
+        aliases:
+          - varnish.local
+  web:
+    build:
+      context: ./web
+      args:
+        magento_uid: ${CURRENT_UID}
+        magento_gid: ${CURRENT_GID}
+    container_name: m2-formation-apache
+    ports:
+        - 8080:8080
+        - 8043:8043
+    env_file:
+      - .env
+    volumes:
+      - ${M2_LOCAL_PATH}:${WWW_PATH}
+      - ./web/volumes/home/magento:/home/magento
+      - ./web/volumes/var/www/html:/var/www/html
+    environment:
+       SSH_AUTH_SOCK: /ssh-agent
+    depends_on:
+      - db
+      - mail
+      - redis-cache
+      - redis-session
+      - elasticsearch
+    networks:
+      default:
+        aliases:
+          - apache.local
+
+  db:
+    image: mariadb:10.2
+    container_name: m2-formation-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3309:3306
+    expose:
+      - "3306"
+    volumes:
+      - ./db/volumes/var/lib/mysql:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      default:
+        aliases:
+          - db.local
+    command: [--innodb_buffer_pool_size=4294967296]
+
+  redis-cache:
+    image: redis:3-alpine
+    container_name: m2-formation-redis-cache
+    expose:
+      - "6379"
+    networks:
+      default:
+        aliases:
+          - redis-cache.local
+
+  redis-session:
+    image: redis:3-alpine
+    container_name: m2-formation-redis-session
+    expose:
+      - "6379"
+    networks:
+      default:
+        aliases:
+          - redis-session.local
+
+  elasticsearch:
+      build:
+        context: ./elasticsearch
+      container_name: m2-formation-elasticsearch
+      environment:
+        - discovery.type=single-node
+        - xpack.graph.enabled=false
+        - xpack.ml.enabled=false
+        - xpack.monitoring.enabled=false
+        - xpack.security.enabled=false
+        - xpack.watcher.enabled=false
+      ports:
+        - 9200:9200
+      expose:
+        - "9200"
+        - "9300"
+      networks:
+        default:
+          aliases:
+            - elasticsearch.local
+
+  mail:
+      image: mailhog/mailhog
+      container_name: m2-formation-mailhog
+      ports:
+          - 1025:1025
+          - 8025:8025
+      expose:
+        - "8025"
+      networks:
+        default:
+          aliases:
+            - mail.local

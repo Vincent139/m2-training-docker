@@ -1,0 +1,17 @@
+#
+# Generate self signed certificate
+#
+
+openssl genrsa -des3 -passout pass:x -out formation.local.pass.key 2048
+openssl rsa -passin pass:x -in formation.local.pass.key -out formation.local.key
+rm formation.local.pass.key
+openssl req -new -key formation.local.key -out formation.local.csr
+openssl x509 -req -days 365 -in formation.local.csr -signkey formation.local.key -out formation.local.crt
+
+cp * ../../../../../nginx/files/etc/nginx/ssl/
+
+#
+# Check the common name registered
+#
+
+openssl x509 -noout -subject -in formation.local.crt
