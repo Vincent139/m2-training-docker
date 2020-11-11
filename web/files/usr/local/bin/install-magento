@@ -5,7 +5,7 @@ cd $MAGENTO_SRC
 # Composer install
 composer install
 
-composer require "smile/elasticsuite"
+composer require "smile/elasticsuite:~2.9.0"
 composer require --dev "vpietri/adm-quickdevbar"
 
 # uninstall in case of reinstall

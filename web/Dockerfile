@@ -1,4 +1,4 @@
-FROM php:7.2-apache-stretch
+FROM php:7.3.24-apache-stretch
 
 MAINTAINER Clever-Age DevOps Team <system@clever-age.com>
 
@@ -43,6 +43,7 @@ RUN apt-get update && apt-get install -y \
 # iconv
 #
 RUN apt-get update && apt-get install -y \
+	libzip-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
@@ -64,7 +65,8 @@ RUN apt-get update && apt-get install -y \
       	intl \
       	xsl \
       	ldap \
-      	sodium
+      	sodium \
+	sockets
 
 # PHP PECL Extension
 #
@@ -84,8 +86,7 @@ RUN a2enmod alias \
 
 # Install Composer
 #
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
+COPY --from=composer:1.10.16 /usr/bin/composer /usr/local/bin/composer
 
 # Mails
 #
